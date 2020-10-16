@@ -1,0 +1,5 @@
+.DS_Store
+app-shop/node_modules/
+app-shop/dist/
+app-shop/npm-debug.log
+.vscode/

@@ -93,15 +93,15 @@ export default {
 					path: '/pages/user/address/address',
 					icon: 'icon-dizhi1',
 					// rightTxt:'',
-					status:0
-				},
-				{
-					name: '小区',
-					path: '/pages/user/community/index',
-					icon: 'icon-dizhi1',
-					// rightTxt:this.$attrscommunity,
 					status:1
-				}
+				},
+				// {
+				// 	name: '小区',
+				// 	path: '/pages/user/community/index',
+				// 	icon: 'icon-dizhi1',
+				// 	// rightTxt:this.$attrscommunity,
+				// 	status:1
+				// }
 			],
 			detail: {
 				balance: 0,

@@ -1,6 +1,7 @@
 <template>
 	<view class="wrap" v-if="!loading">
 		<Myinfo v-if="tab_type == 0" :Address="Address" :exist_address="exist_address"></Myinfo>
+		<!-- <Myinfo v-if="tab_type == 1" :Address="Address" :exist_address="exist_address"></Myinfo> -->
 		<!--购买的产品-->
 		<view class="vender">
 			<view class="group-hd">
@@ -92,7 +93,7 @@ export default {
 			autoplay: true,
 			interval: 2000,
 			duration: 500,
-			tab_type: 0,
+			tab_type: 1,
 			/*商品id*/
 			product_id: '',
 			/*商品数量*/
@@ -110,7 +111,7 @@ export default {
 			extract_shop: [],
 			product_sku_id: 0,
 			/*配送方式*/
-			delivery: 10,
+			delivery: 30,//配送
 			remark: '',
 			/*支付方式*/
 			pay_type: 20,

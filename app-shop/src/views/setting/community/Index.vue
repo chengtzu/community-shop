@@ -8,50 +8,82 @@
     <div class="common-form">社区管理</div>
     <!--退货地址-->
     <div class="common-level-rail">
-      <el-button
-        size="small"
-        icon="el-icon-plus"
-        type="primary"
-        @click="addClick"
-        v-auth="'/setting/address/add'"
-        >添加</el-button
-      >
+      <el-button-group>
+        <el-button
+          size="small"
+          icon="el-icon-plus"
+          type="primary"
+          @click="communityFormVisible = true"
+          >添加</el-button
+        >
+        <el-button
+          size="small"
+          icon="el-icon-open"
+          type="primary"
+          @click="ustatus(1)"
+          >启用</el-button
+        >
+        <el-button
+          size="small"
+          icon="el-icon-turn-off"
+          type="primary"
+          @click="ustatus(0)"
+          >禁用</el-button
+        >
+      </el-button-group>
     </div>
 
     <!--内容-->
-    <div class="product-content">
+    <div class="community-content">
       <el-tree
         :data="data"
         node-key="value"
-       
         :expand-on-click-node="false"
+        show-checkbox
+        ref="tree"
       >
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <span>{{ node.label }}</span>
           <span>
-            <el-button type="text" size="mini" @click="() => append(data)" v-if="node.children">
-              添加
+            <el-button type="text" size="mini" @click="() => edit(node, data)">
+              <i class="el-icon-edit"></i>
             </el-button>
             <el-button
               type="text"
               size="mini"
               @click="() => remove(node, data)"
-              v-if="node.children"
             >
-             删除
-            </el-button>
-            
-            <el-button
-              type="text"
-              size="mini"
-              @click="() => edit(node, data)"
-            >
-              编辑 
+              <i class="el-icon-delete"></i>
             </el-button>
           </span>
         </span>
       </el-tree>
     </div>
+    <el-dialog title="社区" :visible.sync="communityFormVisible">
+      <el-form :model="form">
+        <el-form-item label="区/小区" :label-width="formLabelWidth">
+          <el-select v-model="form.pid" placeholder="请选择区/社区">
+            <el-option label="区域" :value="0" :key="0"></el-option>
+            <el-option
+              v-for="item in data"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="communityFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="communityFormVisible = false"
+          >确 定</el-button
+        >
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -61,11 +93,16 @@ let id = 1000;
 export default {
   data() {
     return {
-        form: {
-          delivery_id: 0,
-        },
-      data:[],
-    //   data: data,
+      form: {
+        id: 0,
+        pid: '',
+        name: "",
+        level: 1,
+      },
+      communityFormVisible: false,
+      formLabelWidth: '120px',
+      data: [],
+      //   data: data,
     };
   },
   created() {
@@ -73,24 +110,29 @@ export default {
     this.getData();
   },
   methods: {
-      getData() {
-        let self = this;
-        SettingApi.deliveryDetail({
-            delivery_id:0
+    getData() {
+      let self = this;
+      SettingApi.deliveryDetail(
+        {
+          delivery_id: 0,
         },
-            true
-          )
-          .then(data => {
-            //   console.log(data)
-            this.data = data.data.arr;
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      },
-    addClick(){
-
+        true
+      )
+        .then((res) => {
+          let data = res.data.arr;
+          this.data = data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
+    ustatus(status) {
+      let idArr = this.$refs.tree.getCheckedKeys();
+      let ids = idArr.join(",");
+
+      console.log(status, ids);
+    },
+    addClick() {},
     append(data) {
       const newChild = { id: id++, label: "testtest", children: [] };
       if (!data.children) {
@@ -107,10 +149,23 @@ export default {
     },
 
     edit(node, data) {
-    //   const parent = node.parent;
-    //   const children = parent.data.children || parent.data;
-    //   const index = children.findIndex((d) => d.id === data.id);
-    //   children.splice(index, 1);
+        const checkdata = node.data;
+        const parent = node.parent;
+        this.communityFormVisible = true;
+        if(node.level==1){
+            this.form.pid = 0;
+        }else{
+            this.form.pid=parent.data.value;
+        }
+        this.form.id=checkdata.value;
+        this.form.name=checkdata.label;
+        this.form.level=node.level;
+        console.log(this.form)
+        // console.log(this.form)
+      //   const parent = node.parent;
+      //   const children = parent.data.children || parent.data;
+      //   const index = children.findIndex((d) => d.id === data.id);
+      //   children.splice(index, 1);
     },
 
     renderContent(h, { node, data, store }) {
@@ -140,4 +195,19 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.community-content {
+  width: 300px;
+}
+.community-content button {
+  margin-right: 10px;
+}
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
+}
+</style>

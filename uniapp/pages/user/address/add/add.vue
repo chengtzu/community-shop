@@ -32,7 +32,7 @@
 </template>
 
 <script>
-	import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
+	import mpvueCityPicker from '@/components/mpvue-citypicker/communityPicker.vue'
 	export default {
 		components: {
 			mpvueCityPicker

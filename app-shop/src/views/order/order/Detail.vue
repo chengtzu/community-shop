@@ -51,7 +51,11 @@
           <el-col :span="5">
             <div class="pb16">
               <span class="gray9">配送方式：</span>
-              {{ detail.delivery_type.text }}
+               <el-select v-model="detail.delivery_type.status" placeholder="请选择配送方式">
+                <el-option :label="'商家配送'"  :key="99" :value="99"></el-option>
+                <el-option :label="'快递物流'"  :key="10" :value="10"></el-option>
+              </el-select>
+              <!-- {{ detail.delivery_type.text }} -->
             </div>
           </el-col>
           <el-col :span="5">
@@ -61,7 +65,7 @@
             </div>
           </el-col>
           <el-col :span="5" v-if="detail['pay_status']['value'] == 10 && detail['order_status']['value'] == 10 && detail['order_source'] == 10">
-            <el-button v-if="" type="text" @click="editClick(detail)" size="small">修改价格</el-button>
+            <el-button  type="text" @click="editClick(detail)" size="small">修改价格</el-button>
           </el-col>
         </el-row>
       </div>
@@ -254,7 +258,20 @@
             <el-form-item><el-button type="primary" @click="onSubmit()">确认发货</el-button></el-form-item>
           </el-form>
         </div>
-        <div v-else="">
+        <div v-else-if="detail.delivery_status.value == 99">
+          <!-- 去发货 -->
+          <div class="common-form mt16">去发货</div>
+          <el-form size="small" ref="form" :model="form" label-width="100px">
+            <!-- <el-form-item label="物流公司">
+              <el-select v-model="form.express_id" placeholder="请选择快递公司">
+                <el-option :label="item.express_name" v-for="(item, index) in expressList" :key="index" :value="item.express_id"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="物流单号"><el-input v-model="form.express_no" class="max-w460"></el-input></el-form-item> -->
+            <el-form-item><el-button type="primary" @click="onSubmit()">确认发货</el-button></el-form-item>
+          </el-form>
+        </div>
+        <div v-else>
           <div class="common-form mt16">发货信息</div>
           <div class="table-wrap">
             <el-row>
