@@ -11,7 +11,7 @@
 					<input class="ml20" name="phone" type="text" value="" placeholder-class="grary" placeholder="手机号码" />
 				</view>
 				<view class="d-s-c p30">
-					<text>所在地区</text>
+					<text>所在位置</text>
 					<view class="input-box">
 						<input class="ml20" type="text" value="" placeholder-class="grary" placeholder="" v-model="selectCity" disabled="true"
 						 @click="showMulLinkageThreePicker" />
@@ -39,11 +39,11 @@
 		},
 		data() {
 			return {
-				cityPickerValueDefault: [0, 0, 0],
-				selectCity:'选择省,市,区',
+				cityPickerValueDefault: [0, 0],
+				selectCity:'选择区域,小区',
 				province_id:0,
 				city_id:0,
-				region_id:0,
+				// region_id:0,
 			}
 		},
 		methods: {
@@ -52,7 +52,7 @@
 					var formdata = e.detail.value;
 					formdata.province_id = self.province_id;
 					formdata.city_id = self.city_id;
-					formdata.region_id = self.region_id;
+					// formdata.region_id = self.region_id;
 					 self._post('user.address/add', formdata, function(res) {
 						 self.showSuccess(res.msg,function(){
 							 uni.navigateBack();
@@ -70,7 +70,8 @@
 				  	this.selectCity = e.label;
 				  	this.province_id = e.cityCode[0];
 				  	this.city_id = e.cityCode[1];
-				  	this.region_id = e.cityCode[2];
+					console.log(this.province_id,this.city_id)
+				  	// this.region_id = e.cityCode[2];
 				  },
 		}
 	}

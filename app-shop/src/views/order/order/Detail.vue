@@ -51,11 +51,11 @@
           <el-col :span="5">
             <div class="pb16">
               <span class="gray9">配送方式：</span>
-               <el-select v-model="detail.delivery_type.status" placeholder="请选择配送方式">
+               <!-- <el-select v-model="detail.delivery_type.status" placeholder="请选择配送方式">
                 <el-option :label="'商家配送'"  :key="99" :value="99"></el-option>
                 <el-option :label="'快递物流'"  :key="10" :value="10"></el-option>
-              </el-select>
-              <!-- {{ detail.delivery_type.text }} -->
+              </el-select> -->
+              {{ detail.delivery_type.text }}
             </div>
           </el-col>
           <el-col :span="5">
@@ -104,7 +104,7 @@
       </div>
 
       <!--收货信息-->
-      <div v-if="detail.delivery_type.value == 10">
+      <div v-if="detail.delivery_type.value == 10 || detail.delivery_type.value == 30">
         <div class="common-form mt16">收货信息</div>
         <div class="table-wrap">
           <el-row>
@@ -244,8 +244,8 @@
 
       <!--发货信息-->
 
-      <div v-if="detail.pay_status.value == 20 && detail.delivery_type.value == 10 && [20, 21].indexOf(detail.order_status.value) === -1">
-        <div v-if="detail.delivery_status.value == 10">
+      <div v-if="detail.pay_status.value == 20 &&  [20, 21].indexOf(detail.order_status.value) === -1">
+        <div v-if="detail.delivery_status.value == 10 && detail.delivery_type.value == 10 ">
           <!-- 去发货 -->
           <div class="common-form mt16">去发货</div>
           <el-form size="small" ref="form" :model="form" label-width="100px">
@@ -258,30 +258,24 @@
             <el-form-item><el-button type="primary" @click="onSubmit()">确认发货</el-button></el-form-item>
           </el-form>
         </div>
-        <div v-else-if="detail.delivery_status.value == 99">
+        <div v-else-if="detail.delivery_status.value == 10 && detail.delivery_type.value == 30">
           <!-- 去发货 -->
           <div class="common-form mt16">去发货</div>
           <el-form size="small" ref="form" :model="form" label-width="100px">
-            <!-- <el-form-item label="物流公司">
-              <el-select v-model="form.express_id" placeholder="请选择快递公司">
-                <el-option :label="item.express_name" v-for="(item, index) in expressList" :key="index" :value="item.express_id"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="物流单号"><el-input v-model="form.express_no" class="max-w460"></el-input></el-form-item> -->
             <el-form-item><el-button type="primary" @click="onSubmit()">确认发货</el-button></el-form-item>
           </el-form>
         </div>
         <div v-else>
           <div class="common-form mt16">发货信息</div>
-          <div class="table-wrap">
+          <div class="table-wrap" >
             <el-row>
-              <el-col :span="5">
+              <el-col :span="5" v-if="detail.delivery_type.value==10">
                 <div class="pb16">
                   <span class="gray9">物流公司：</span>
                   {{ detail.express.express_name }}
                 </div>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="5" v-if="detail.delivery_type.value==10">
                 <div class="pb16">
                   <span class="gray9">物流单号：</span>
                   {{ detail.express_no }}
@@ -310,7 +304,7 @@
           <el-form size="small" ref="form1" :model="form1" label-width="100px">
             <el-form-item label="门店核销员">
               <el-select v-model="form1.order.extract_clerk_id" placeholder="点击选择">
-                <el-option :label="item.real_name" v-for="(item, index) in shopClerkList" :key="item.clerk_id" :value="item.clerk_id"></el-option>
+                <el-option :label="item.real_name" v-for="(item) in shopClerkList" :key="item.clerk_id" :value="item.clerk_id"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="买家取货状态 "><el-radio v-model="form1.order.extract_status" :label="1">已取货</el-radio></el-form-item>
@@ -402,7 +396,7 @@ export default {
         }
       },
       order: {},
-      delivery_type: 0,
+      // delivery_type: 0,
       /*配送方式*/
       exStyle: [],
       /*门店列表*/

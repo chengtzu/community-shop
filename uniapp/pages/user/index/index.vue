@@ -51,13 +51,21 @@
 		<!--菜单-->
 		<view class="menu-wrap">
 			<view class="group-bd">
+				<view class="item d-b-c"  @click="gotoPage('/pages/user/delivery/index')" >
+					<view class="d-s-c type">
+						<text :class="'icon iconfont '"></text>
+						<text class="name">配送管理</text>
+					</view>
+					<view class="right">
+						<text class="icon iconfont icon-jiantou" ></text>
+					</view>
+				</view>
 				<view class="item d-b-c" v-for="(item, index) in menus" :key="index" @click="gotoPage(item.path)" v-if="item.status==1">
 					<view class="d-s-c type">
 						<text :class="'icon iconfont ' + item.icon"></text>
 						<text class="name">{{ item.name }}</text>
 					</view>
 					<view class="right">
-						
 						<text v-if="community">{{community}}</text>
 						<text class="icon iconfont icon-jiantou" v-else ></text>
 					</view>

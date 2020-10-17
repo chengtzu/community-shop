@@ -13,7 +13,7 @@
                            placeholder="手机号码"></input>
                 </view>
                 <view class="d-s-c p30">
-                    <text>所在地区</text>
+                    <text>所在位置</text>
                     <view class="input-box">
                         <input class="ml20" type="text" value="" placeholder-class="grary" placeholder=""
                                v-model="selectCity" disabled="true"
@@ -36,18 +36,18 @@
 </template>
 
 <script>
-    import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
+    import mpvueCityPicker from '@/components/mpvue-citypicker/communityPicker.vue'
     export default {
         components: {
             mpvueCityPicker
         },
         data() {
             return {
-                cityPickerValueDefault: [0, 0, 0],
-                selectCity: '选择省,市,区',
+                cityPickerValueDefault: [0, 0],
+                selectCity: '选择区,小区',
                 province_id: 0,
                 city_id: 0,
-                region_id: 0,
+                // region_id: 0,
                 /*地址id*/
                 address_id: 0,
                 /*地址数据*/
@@ -82,7 +82,7 @@
                         self.address_id = res.data.detail.address_id;
                         self.province_id=res.data.detail.province_id;
                         self.city_id=res.data.detail.city_id;
-                        self.region_id=res.data.detail.region_id;
+                        // self.region_id=res.data.detail.region_id;
                         self.region = res.data.region;
                         let add = '';
                         var b = self.region.forEach((item) =>
@@ -120,11 +120,12 @@
                 this.$refs.mpvueCityPicker.show()
             },
             onConfirm(e) {
-                console.log(JSON.stringify(e));
+                // console.log(JSON.stringify(e));
                 this.selectCity = e.label;//JSON.stringify(e)
+				// this.region
                 this.province_id = e.cityCode[0];
                 this.city_id = e.cityCode[1];
-                this.region_id = e.cityCode[2];
+                // this.region_id = e.cityCode[2];
             },
         }
     }

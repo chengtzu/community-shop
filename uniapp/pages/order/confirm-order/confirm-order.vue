@@ -93,7 +93,7 @@ export default {
 			autoplay: true,
 			interval: 2000,
 			duration: 500,
-			tab_type: 1,
+			tab_type: 0,
 			/*商品id*/
 			product_id: '',
 			/*商品数量*/

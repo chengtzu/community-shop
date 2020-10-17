@@ -43,7 +43,7 @@ export default {
     pickerValueDefault: {
       type: Array,
       default(){
-				return [0, 0, 0]
+				return [0, 0]
 			}
     },
     /* 主题色 */
@@ -58,7 +58,7 @@ export default {
 	init() {
 			this.handPickValueDefault(); // 对 pickerValueDefault 做兼容处理
 			this._get('region/lists',{},res=>{
-				console.log(res)
+				// console.log(res)
 				this.provinceDataList = res.data;
 				// console.log(this.provinceDataList[this.pickerValueDefault[0]])
 				this.cityDataList = this.provinceDataList[this.pickerValueDefault[0]].children;
@@ -66,7 +66,7 @@ export default {
 			// this.provinceDataList = provinceData;
 			// this.cityDataList = cityData[this.pickerValueDefault[0]];
 			// this.areaDataList = areaData[this.pickerValueDefault[0]][this.pickerValueDefault[1]];
-			// this.pickerValue = this.pickerValueDefault;
+			this.pickerValue = this.pickerValueDefault;
 	},
 	// serverData(){
 		
@@ -91,7 +91,7 @@ export default {
       this.showPicker = true;
     },
     handPickValueDefault() {
-      if (this.pickerValueDefault !== [0, 0, 0]) {
+      if (this.pickerValueDefault !== [0,0]) {
         if (this.pickerValueDefault[0] > provinceData.length - 1) {
           this.pickerValueDefault[0] = provinceData.length - 1;
         }
@@ -107,17 +107,17 @@ export default {
       let changePickerValue = e.mp.detail.value;
       if (this.pickerValue[0] !== changePickerValue[0]) {
         // 第一级发生滚动
-		this.cityDataList = this.provinceDataList[this.pickerValueDefault[0]].children;
+		this.cityDataList = this.provinceDataList[changePickerValue[0]].children;
         // this.cityDataList = cityData[changePickerValue[0]];
         // this.areaDataList = areaData[changePickerValue[0]][0];
         changePickerValue[1] = 0;
         // changePickerValue[2] = 0;
       } 
 	  // else if (this.pickerValue[1] !== changePickerValue[1]) {
-   //      // 第二级滚动
-   //      this.areaDataList =
-   //        areaData[changePickerValue[0]][changePickerValue[1]];
-   //      changePickerValue[2] = 0;
+   // //      // 第二级滚动
+   // //      this.areaDataList =
+   // //        areaData[changePickerValue[0]][changePickerValue[1]];
+   // //      changePickerValue[2] = 0;
    //    }
       this.pickerValue = changePickerValue;
       this._$emit('onChange');
@@ -140,7 +140,7 @@ export default {
       return pcikerLabel;
     },
     _getCityCode() {
-			let pcikerCode = [0,0,0];
+			let pcikerCode = [0,0];
 				pcikerCode[0] = this.provinceDataList[this.pickerValue[0]].id;
 				pcikerCode[1] = this.cityDataList[this.pickerValue[1]].id;
 				// pcikerCode[2] = this.areaDataList[this.pickerValue[2]].value;
