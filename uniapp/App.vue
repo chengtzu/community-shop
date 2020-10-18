@@ -7,7 +7,7 @@
 			//检查更新
 			this.updateManager();
 			//#endif
-			//应用启动参数
+			//应用启动参数 
 			this.onStartupScene(e.query);
 		},
 		onShow: function() {
