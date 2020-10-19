@@ -184,7 +184,18 @@ export default {
     },
     //配送
     switchDB(res){
-       console.log(res)
+      //  console.log(res)
+      let Params = {
+        'user_id':res.user_id,
+        'is_db':res.is_db
+      };
+       UserApi.userdeliveryboy(Params, true)
+        .then(data => {
+          
+        })
+        .catch(error => {
+          
+        });
     }
   }
 };

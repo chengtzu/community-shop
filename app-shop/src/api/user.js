@@ -21,6 +21,11 @@ let UserApi = {
     EditPass(data, errorback) {
         return request._post('/shop/passport/editPass', data, errorback);
     },
+    
+    /*配送员*/
+    userdeliveryboy(data, errorback) {
+        return request._post('/shop/user.user/edit', data, errorback);
+    },
 }
 
 export default UserApi;

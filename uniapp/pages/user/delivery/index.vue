@@ -1,9 +1,9 @@
 <template>
 	<view>
 		<view class="top-tabbar">
-			<view :class="state_active==0?'tab-item active':'tab-item'" @click="stateFunc(0)">
+			<!-- <view :class="state_active==0?'tab-item active':'tab-item'" @click="stateFunc(0)">
 				全部订单
-			</view>
+			</view> -->
 			<!-- 			<view :class="state_active==1?'tab-item active':'tab-item'" @click="stateFunc(1)">
 				待付款
 			</view>
@@ -13,9 +13,9 @@
 			<view :class="state_active==3?'tab-item active':'tab-item'" @click="stateFunc(3)">
 				待配送
 			</view>
-			<!-- <view :class="state_active==4?'tab-item active':'tab-item'" @click="stateFunc(4)">
-				待评价
-			</view> -->
+			<view :class="state_active==4?'tab-item active':'tab-item'" @click="stateFunc(4)">
+				已完成
+			</view>
 		</view>
 
 		<!--列表-->
@@ -107,7 +107,7 @@
 							</block>
 							<!-- 确认收货 -->
 							<block v-if="item.delivery_status.value==20 && item.receipt_status.value == 10">
-								<button @click="orderReceipt(item.order_id)">确认收货</button>
+								<button @click="orderReceipt(item.order_id)">确认送达</button>
 							</block>
 							<!-- 订单评价 -->
 							<!-- <button type="default" v-if="item.order_status.value==30 && item.is_comment==0" @click="gotoEvaluate(item.order_id)">评价</button> -->
@@ -143,12 +143,12 @@
 				/*可滚动视图区域高度*/
 				scrollviewHigh: 0,
 				/*状态选中*/
-				state_active: 0,
+				state_active: 3,
 				/*顶部刷新*/
 				topRefresh: false,
 				/*数据*/
 				listData: [],
-				dataType: 'all',
+				dataType: 'received',
 				/*是否显示支付类别弹窗*/
 				isPayPopup: false,
 				/*支付方式*/
@@ -187,12 +187,12 @@
 
 			this.$status.setStates('type', null);
 
-			this.dataType = e.dataType;
-			if (this.dataType == 'payment') {
-				this.state_active = 1;
-			} else if (this.dataType == 'received') {
+			// this.dataType = e.dataType;
+			// if (this.dataType == 'payment') {
+			// 	this.state_active = 1;
+			// } else if (this.dataType == 'received') {
 				this.state_active = 3;
-			}
+			// }
 
 		},
 		mounted() {
@@ -242,7 +242,7 @@
 						break;
 					case 4:
 						self.listData = [];
-						self.dataType = 'comment';
+						self.dataType = 'ok';
 						break;
 				};
 				self.getData();
@@ -252,7 +252,7 @@
 				let self = this;
 				self.loading = true;
 				let dataType = self.dataType;
-				self._get('user.order/lists', {
+				self._get('delivery.DeliveryboyOrder/lists', {
 					dataType: dataType,
 					page: self.page,
 					list_rows: self.list_rows,

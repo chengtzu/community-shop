@@ -51,7 +51,7 @@
 		<!--菜单-->
 		<view class="menu-wrap">
 			<view class="group-bd">
-				<view class="item d-b-c"  @click="gotoPage('/pages/user/delivery/index')" >
+				<view class="item d-b-c"  @click="gotoPage('/pages/user/delivery/index')" v-if="detail.is_db==1" >
 					<view class="d-s-c type">
 						<text :class="'icon iconfont '"></text>
 						<text class="name">配送管理</text>
