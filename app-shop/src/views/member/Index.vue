@@ -34,10 +34,23 @@
               {{ scope.row.gender | convertSex }}
             </template>
           </el-table-column>
-          <el-table-column prop="country" label="国家"></el-table-column>
-          <el-table-column prop="province" label="省份"></el-table-column>
+          <!-- <el-table-column prop="country" label="国家"></el-table-column> -->
+          <!-- <el-table-column prop="province" label="省份"></el-table-column> -->
           <el-table-column prop="city" label="城市"></el-table-column>
           <el-table-column prop="create_time" label="注册时间" width="140"></el-table-column>
+           <el-table-column prop="is_db" label="配送员" width="150">
+            <template slot-scope="scope">
+              <el-switch
+                    v-model="scope.row.is_db"
+                    :active-value="1"
+                    :inactive-value="0"
+                    active-color="#02538C"
+                    inactive-color="#B9B9B9"
+                    @change="switchDB(scope.row)"
+              />
+
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" label="操作" width="50">
             <template slot-scope="scope">
               <el-button @click="deleteClick(scope.row)" type="text" size="small" v-auth="'/member/member/delete'">删除</el-button>
@@ -168,6 +181,10 @@ export default {
         .catch(() => {
           self.loading = false;
         });
+    },
+    //配送
+    switchDB(res){
+       console.log(res)
     }
   }
 };
