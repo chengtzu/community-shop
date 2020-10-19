@@ -1,5 +1,7 @@
 .DS_Store
+app/
 app-shop/node_modules/
 app-shop/dist/
 app-shop/npm-debug.log
 .vscode/
+.gitignore
