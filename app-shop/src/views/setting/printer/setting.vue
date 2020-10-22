@@ -6,7 +6,7 @@
  -->
 <div class="print">
      <!--form表单-->
-    <el-form size="small" ref="form" :model="form" label-width="200px">
+    <el-form size="small" ref="form" :model="form" label-width="200px" v-loading="loading">
       <!--文件上传设置-->
       <div class="common-form">打印设置</div>
 
@@ -17,17 +17,17 @@
         </div>
       </el-form-item>
       <el-form-item label="打印机">
+        
             <el-select v-model="form.printer_id" placeholder="请选择">
                 <el-option
                 v-for="item in printlist"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item.printer_id"
+                :label="item.printer_name"
+                :value="item.printer_id"
                 :disabled="item.disabled">
                 </el-option>
             </el-select>
       </el-form-item>
-      
       <el-form-item label="打印方式">
         <div>
          <el-checkbox-group v-model="form.order_status">
@@ -51,16 +51,7 @@ export default {
       /*切换菜单*/
       // activeIndex: '1',
       /*form表单数据*/
-      printlist:[
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶',
-          disabled: true
-        }
-      ],
+      printlist:[],
       form: {
         is_open: 0,
         printer_id:null,
@@ -71,6 +62,7 @@ export default {
     };
   },
   created() {
+    this. loading =  true;
     this.getData();
   },
 
@@ -80,11 +72,16 @@ export default {
       SettingApi.printDetail({}, true)
         .then(data => {
           let vars = data.data.vars.values;
+          let print = data.data.print.data;
           self.form.is_open = vars.is_open;
           self.form.printer_id = vars.printer_id;
           self.form.order_status = vars.order_status;
+          self.printlist = print;
+           self. loading =  false;
         })
-        .catch(error => {});
+        .catch(error => {
+           self. loading =  false;
+        });
     },
     //提交表单
     onSubmit() {

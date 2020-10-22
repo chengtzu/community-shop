@@ -27,13 +27,14 @@
                     :inactive-value="0"
                     active-color="#02538C"
                     inactive-color="#B9B9B9"
-                    @change="switchDB(scope.row)"
+                    @change="switchStatus(scope.row)"
               />
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="50">
+          <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
-              <el-button @click="deleteClick(scope.row)" type="text" size="small" v-auth="'/member/member/delete'">删除</el-button>
+              <el-button @click="editClick(scope.row)" type="text" size="small" v-auth="'/setting/printer/edit'">编辑</el-button>
+              <el-button @click="deleteClick(scope.row)" type="text" size="small" v-auth="'/setting/printer/delete'">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -111,6 +112,7 @@ export default {
           self.loading = false;
           self.tableData = data.data.list.data;
           self.totalDataNumber = data.data.list.total;
+          
         })
         .catch(error => {
           self.loading = false;
@@ -125,7 +127,7 @@ export default {
       self.getTableList();
     },
 
-    /*删除用户*/
+    /*删除*/
     deleteClick(row) {
       let self = this;
       self
@@ -136,9 +138,9 @@ export default {
         })
         .then(() => {
           self.loading = true;
-          PrinterApi.deleteuser(
+          PrinterApi.deletePrinter(
             {
-              user_id: row.user_id
+              printer_id: row.printer_id
             },
             true
           )
@@ -146,7 +148,7 @@ export default {
               self.loading = false;
               if (data.code == 1) {
                 self.$message({
-                  message: '恭喜你，用户删除成功',
+                  message: '恭喜你，删除成功',
                   type: 'success'
                 });
                 self.getTableList();
@@ -163,15 +165,18 @@ export default {
         });
     },
     //配送
-    switchDB(res){
+    switchStatus(res){
       //  console.log(res)
       let Params = {
-        'user_id':res.user_id,
-        'is_db':res.is_db
+        'printer_id':res.printer_id,
+        'printer_status':res.printer_status
       };
-       PrinterApi.userdeliveryboy(Params, true)
+       PrinterApi.printeredit(Params, true)
         .then(data => {
-          
+            this.$message({
+                      message: '设置成功',
+                      type: 'success'
+            });
         })
         .catch(error => {
           
@@ -188,8 +193,7 @@ export default {
       this.$router.push({
         path: '/setting/printer/edit',
         query: {
-          product_id: row.printer_id,
-          scene: 'edit'
+          printer_id: row.printer_id
         }
       });
     },

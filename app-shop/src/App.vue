@@ -53,4 +53,7 @@ export default {
 body .el-table th.gutter{
    display: table-cell!important;
 }
+.tips {
+    color: #ccc;
+}
 </style>

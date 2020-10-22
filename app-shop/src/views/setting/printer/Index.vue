@@ -8,12 +8,12 @@
     <el-tabs v-model="activeName">
       <el-tab-pane label="设置" name="first">
       </el-tab-pane>
-      <el-tab-pane label="打印机管理" name="second">
+      <el-tab-pane label="打印机管理" name="printerlist">
       </el-tab-pane>
     </el-tabs>
 
     <Setting v-if="activeName=='first'" ></Setting>
-    <Printlist v-if="activeName=='second'" ></Printlist>
+    <Printlist v-if="activeName=='printerlist'" ></Printlist>
 
   </div>
 </template>

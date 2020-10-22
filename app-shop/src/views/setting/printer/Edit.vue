@@ -4,12 +4,12 @@
           时间：2020年10月21日 14:13:37
           描述：列表
       -->
-  <div class="printer">
+  <div class="printer" >
     <div class="wrap" style="padding-bottom: 20px">
-      <div class="common-form">小票打印机添加</div>
+      <div class="common-form">小票打印机-{{form.printer_name}}</div>
     </div>
     <!--内容-->
-    <div class="printer-content">
+    <div class="printer-content" v-loading="loading">
       <el-form size="small" ref="form" :model="form" label-width="180px">
         
         <el-form-item label="打印机名称" :rules="[{ required: true, message: '请输入打印机名称' }]" prop="printer_name">
@@ -55,7 +55,7 @@
             size="small"
             @click="onSubmit"
             :loading="loading"
-            >发布</el-button
+            >修改</el-button
           >
         </div>
       </el-form>
@@ -72,6 +72,7 @@ export default {
       loading: false,
       /*form表单数据*/
       form: {
+          printer_id:0,
           printer_name:'',
           printer_type:'FEI_E_YUN',
           printer_times:1,
@@ -87,16 +88,41 @@ export default {
     };
   },
   
+    created() {
+        this.loading = true;
+      if(this.$route.query.printer_id!=null){
+         this.form.printer_id=this.$route.query.printer_id;
+      }
+      this.detailPrinter(this.form.printer_id);
+    },
   methods: {
+      detailPrinter(printer_id){
+           let self = this;
+           PrinterApi.detailPrinter({printer_id:printer_id}, true)
+                .then(res => {
+                      this.loading = false;
+                    let data = res.data.detail;
+                    self.form.printer_name = data.printer_name;
+                    self.form.printer_type = data.printer_type;
+                    self.form.printer_times = data.printer_times;
+                    self.form.FEI_E_YUN = JSON.parse(data.printer_config);
+                    // console.log(self.form)
+                })
+                .catch(error => {
+
+                   self.loading = false;
+                    
+            });
+      },
       onSubmit(){
-          console.log(this.form)
+        //   console.log(this.form)
           this.$refs['form'].validate((valid) => {
           if (valid) {
-               PrinterApi.printeradd(this.form, true)
+               PrinterApi.printeredit(this.form, true)
                 .then(res => {
                      self.loading = false;
                      self.$message({
-                      message: '添加成功',
+                      message: '修改成功',
                       type: 'success'
                     });
                     self.$router.push('/setting/printer/index?type=printerlist');

@@ -34,7 +34,7 @@
     </div>
 
     <!--内容-->
-    <div class="community-content">
+    <div class="community-content" v-loading="loading">
       <el-tree
         :data="data"
         node-key="value"
@@ -93,6 +93,7 @@ let id = 1000;
 export default {
   data() {
     return {
+      loading:false,
       form: {
         id: 0,
         pid: '',
@@ -112,6 +113,7 @@ export default {
   methods: {
     getData() {
       let self = this;
+      self.loading = true;
       SettingApi.deliveryDetail(
         {
           delivery_id: 0,
@@ -121,8 +123,11 @@ export default {
         .then((res) => {
           let data = res.data.arr;
           this.data = data;
+          
+      self.loading = false;
         })
         .catch((error) => {
+      self.loading = false;
           console.log(error);
         });
     },
