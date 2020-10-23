@@ -5,13 +5,13 @@
     	描述：后台母版
     -->
   <div :class="hasChild!=null?'main':'main right-big'">
-
+    
     <!--left menu-->
     <LeftMenu @selectMenu='selectMenuFunc'></LeftMenu>
 
     <!--right content-->
     <RightContent></RightContent>
-
+    
   </div>
 </template>
 

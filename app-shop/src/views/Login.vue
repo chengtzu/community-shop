@@ -6,8 +6,8 @@
       -->
   <div class="login-bg" :style="'background-image:url(' + bgimg_url + ');'">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="0px" class="demo-ruleForm login-container">
-      <h3 class="title" style="margin-bottom: 20px;">三勾商城后台管理系统</h3>
-      <p class="pb16 d-c-c">登录用户名：admin,密码：123456</p>
+      <h3 class="title" style="margin-bottom: 20px;">橙子商城后台管理系统</h3>
+      <!-- <p class="pb16 d-c-c">登录用户名：admin,密码：123456</p> -->
       <!--用户名-->
       <el-form-item prop="account"><el-input type="text" v-model="ruleForm.account" auto-complete="off" placeholder="账号"></el-input></el-form-item>
       <!--密码-->
@@ -17,6 +17,10 @@
         <el-button type="primary" style="width:100%;" @click.native.prevent="SubmitFunc" :loading="logining">登录</el-button>
       </el-form-item>
     </el-form>
+    <el-alert
+    type="success"
+    description="技术支持（BUG反馈） QQ/WX：5036744 电话：15548906781">
+  </el-alert>
   </div>
 </template>
 
