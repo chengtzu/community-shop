@@ -43,18 +43,20 @@
         ref="tree"
       >
         <span class="custom-tree-node" slot-scope="{ node, data }">
-          <span>{{ node.label }}</span>
+          <span>{{ node.label}}</span>
           <span>
             <el-button type="text" size="mini" @click="() => edit(node, data)">
               <i class="el-icon-edit"></i>
             </el-button>
-            <el-button
+            <!-- <el-button
               type="text"
               size="mini"
               @click="() => remove(node, data)"
             >
               <i class="el-icon-delete"></i>
-            </el-button>
+            </el-button> -->
+
+            {{data.status?'已启用':'已禁用'}}
           </span>
         </span>
       </el-tree>
@@ -62,7 +64,7 @@
     <el-dialog title="社区" :visible.sync="communityFormVisible">
       <el-form :model="form">
         <el-form-item label="区/小区" :label-width="formLabelWidth">
-          <el-select v-model="form.pid" placeholder="请选择区/社区">
+          <el-select v-model="form.pid" placeholder="请选择区/社区" @change="pidChang">
             <el-option label="区域" :value="0" :key="0"></el-option>
             <el-option
               v-for="item in data"
@@ -79,7 +81,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="communityFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="communityFormVisible = false"
+        <el-button type="primary" @click="regionform"
           >确 定</el-button
         >
       </div>
@@ -111,6 +113,9 @@ export default {
     this.getData();
   },
   methods: {
+    pidChang(e){
+      this.form.level = e==0?1:2;
+    },
     getData() {
       let self = this;
       self.loading = true;
@@ -134,8 +139,27 @@ export default {
     ustatus(status) {
       let idArr = this.$refs.tree.getCheckedKeys();
       let ids = idArr.join(",");
-
-      console.log(status, ids);
+      if(ids == ''){
+        return alert('请选择数据');
+      }
+      SettingApi.ustatus(
+        {
+          status: status,
+          ids:ids
+        },
+        true
+      )
+        .then((res) => {
+           this.$message({
+              message: '成功',
+              type: 'success'
+            });
+            this.getData();
+        })
+        .catch((error) => {
+          
+        });
+      // console.log(status, ids);
     },
     addClick() {},
     append(data) {
@@ -166,13 +190,25 @@ export default {
         this.form.name=checkdata.label;
         this.form.level=node.level;
         console.log(this.form)
-        // console.log(this.form)
-      //   const parent = node.parent;
-      //   const children = parent.data.children || parent.data;
-      //   const index = children.findIndex((d) => d.id === data.id);
-      //   children.splice(index, 1);
     },
-
+    regionform(){
+         SettingApi.regionform(
+        this.form,
+        true
+      )
+        .then((res) => {
+           this.$message({
+              message: '成功',
+              type: 'success'
+            });
+            this.getData();
+            
+        })
+        .catch((error) => {
+          
+        });
+        this.communityFormVisible=false;
+    },
     renderContent(h, { node, data, store }) {
       return (
         <span class="custom-tree-node">
