@@ -53,6 +53,27 @@
 					</scroll-view>
 				</view>
 			</view>
+			
+			<!--type 44-->
+			<view class="cotegory-type cotegory-type-3" v-if="show_type == 40">
+				<view class="category-tab">
+					<scroll-view scroll-y="true" class="scroll-Y" :style="'height:' + scrollviewHigh + 'px;'">
+						<view :class="index == select_index ? 'item active' : 'item'" v-for="(item, index) in listData" :key="index" @click="selectCategory(index)">
+							<text>{{ item.name }}</text>
+						</view>
+					</scroll-view>
+				</view>
+				<view class="category-content">
+					<scroll-view scroll-y="true" class="scroll-Y" :style="'height:' + scrollviewHigh + 'px;'">
+						<view class="list">
+							<!-- <view class="item" v-for="(item, index) in childlist" :key="index" @click="gotoList(item.category_id)">
+								<image :src="hasImages(item)" mode="aspectFit"></image>
+								<text class="type-name">{{ item.name }}</text>
+							</view> -->
+						</view>
+					</scroll-view>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
