@@ -119,6 +119,8 @@
 		onLoad(e) {
 			/*分类id*/
 			this.category_id = e.category_id;
+			e.search = e.search||'';
+			e.sortType = e.sortType||'';
 			if (e.search != '') {
 				this.search = e.search;
 			}

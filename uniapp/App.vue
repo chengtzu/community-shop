@@ -9,13 +9,34 @@
 			//#endif
 			//应用启动参数 
 			this.onStartupScene(e.query);
+			uni.getSystemInfo({
+				success: function(e) {
+			// 		// #ifndef MP
+			// 		Vue.prototype.StatusBar = e.statusBarHeight;
+			// 		if (e.platform == 'android') {
+			// 			Vue.prototype.CustomBar = e.statusBarHeight + 50;
+			// 		} else {
+			// 			Vue.prototype.CustomBar = e.statusBarHeight + 45;
+			// 		};
+			// 		// #endif
+			
+			// 		// #ifdef MP-WEIXIN
+			// 		Vue.prototype.StatusBar = e.statusBarHeight;
+			// 		let custom = wx.getMenuButtonBoundingClientRect();
+			// 		Vue.prototype.Custom = custom;
+			// 		Vue.prototype.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
+			// 		console.log(this.Custom)
+			// 		console.log(this.CustomBar)
+			// 		// #endif	
+				},
+			})
 		},
-		onShow: function() {
-			//console.log('App Show')
-		},
-		onHide: function() {
-			//console.log('App Hide')
-		},
+		// onShow: function() {
+		// 	//console.log('App Show')
+		// },
+		// onHide: function() {
+		// 	//console.log('App Hide')
+		// },
 		methods: {
 			updateManager: function() {
 				const updateManager = uni.getUpdateManager();

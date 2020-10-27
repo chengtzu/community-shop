@@ -119,6 +119,7 @@ export default {
 	margin-top: 20rpx;
 	margin-bottom: 20rpx;
 	background: #ffffff;
+	width: 100%;
 }
 .diy-product .product-list.column__1 .product-item-box {
 	display: flex;
