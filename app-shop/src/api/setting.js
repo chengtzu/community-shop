@@ -113,26 +113,8 @@ let SettingApi = {
   /*修改短信设置*/
   editSms(data, errorback) {
     return request._post('/shop/settings.sms/index', data, errorback);
-  },
-
-  
-  /*打印设置模板变量*/
-  printDetail(data, errorback) {
-    return request._post('/shop/settings.printer/fetchData', data, errorback);
-  },
-  printedit(data, errorback) {
-    return request._post('/shop/settings.printer/index', data, errorback);
-  },
-  ustatus(data,errorback){
-    return request._post('/shop/region.region/ustatus', data, errorback);
-  },
-  regionform(data,errorback){
-    return request._post('/shop/region.region/form', data, errorback);
-  },
-  regionedit(data,errorback){
-    return request._post('/shop/region.region/edit', data, errorback);
   }
-  
+
 }
 
 export default SettingApi;

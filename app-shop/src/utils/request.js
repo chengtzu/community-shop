@@ -68,8 +68,7 @@ axios.interceptors.response.use((res) =>
  * errorback是否错误回调
  */
 export function _post(url, params, errorback)
-{  
-    
+{
     return new Promise((resolve, reject) =>
     {
         axios.post(url, params)
